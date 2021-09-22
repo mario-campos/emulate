@@ -2,7 +2,9 @@
 
 use strict;
 use warnings;
-use File::Slurper 'read_text';
+
+open my $fh, '<', $ARGV[-1];
+read $fh, my $run_script, -s $fh;
 
 chdir $ENV{EMULATE_VAGRANT_PATH};
-exec 'sudo', 'vagrant', 'ssh', '-c', read_text($ARGV[-1]);
+exec 'sudo', 'vagrant', 'ssh', '-c', $run_script;
