@@ -1,0 +1,21 @@
+name: emulate
+description: Emulate unsupported operating systems using QEMU.
+inputs:
+  operating-system:
+    description: The operating-system specifier.
+    required: true
+runs:
+  using: composite
+  steps:
+  - name: Setup QEMU and the guest OS virtual machine.
+    shell: bash
+    env:
+      GUEST_OS: ${{ inputs.operating-system }}
+    run: |
+      sudo apt-get update -qq
+      sudo apt-get install -qq --no-install-recommends vagrant vagrant-libvirt libvirt-daemon libvirt-daemon-system qemu-kvm
+      
+      sudo systemctl start libvirtd.service
+      
+      cd "$GUEST_OS"
+      vagrant up
