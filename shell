@@ -4,5 +4,6 @@ use strict;
 use warnings;
 use String::ShellQuote;
 
+unshift @ARGV, $0;
 chdir $ENV{EMULATE_VAGRANT_PATH};
-exec 'sudo', 'vagrant', 'ssh', '-c', 'uname -a';
+exec 'sudo', 'vagrant', 'ssh', '-c', shell_quote_best_effort(@ARGV);
