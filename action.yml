@@ -14,5 +14,6 @@ runs:
     run: |
       sudo apt-get -qq install --no-install-recommends vagrant vagrant-libvirt libvirt-daemon libvirt-daemon-system qemu-kvm qemu-utils libstring-shellquote-perl
       sudo systemctl --quiet start libvirtd.service
-      cd "$GITHUB_ACTION_PATH/$GUEST_OS" && sudo vagrant up
+      mv --force "$GITHUB_ACTION_PATH/$GUEST_OS/Vagrantfile" "$GITHUB_WORKSPACE/Vagrantfile"
       sudo ln --force "$GITHUB_ACTION_PATH/shell" /bin/bash
+      sudo vagrant up
