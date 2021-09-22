@@ -21,8 +21,6 @@ runs:
         qemu-utils \
         >/dev/null 2>&1
         
-      sudo systemctl --quiet start libvirtd.service
-      
       # Intercept the `run` steps to send the script to the VM.
       sudo ln --force "$GITHUB_ACTION_PATH/shell" /bin/bash
 
