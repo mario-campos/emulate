@@ -18,4 +18,4 @@ runs:
       sudo systemctl start libvirtd.service
       
       cd "$GITHUB_ACTION_PATH/$GUEST_OS"
-      vagrant up
+      sudo vagrant up
