@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use File::Slurper;
+use File::Slurper 'read_text';
 
 unshift @ARGV, $0;
 chdir $ENV{EMULATE_VAGRANT_PATH};
