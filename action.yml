@@ -12,8 +12,25 @@ runs:
     env:
       GUEST_OS: ${{ inputs.operating-system }}
     run: |
-      sudo apt-get -qq install --no-install-recommends vagrant vagrant-libvirt libvirt-daemon libvirt-daemon-system qemu-kvm qemu-utils libstring-shellquote-perl
+      sudo apt-get install --yes --no-install-recommends \
+        vagrant \
+        vagrant-libvirt \
+        libvirt-daemon \
+        libvirt-daemon-system \
+        qemu-kvm \
+        qemu-utils \
+        libstring-shellquote-perl \
+        >/dev/null 2>&1
+        
       sudo systemctl --quiet start libvirtd.service
-      mv --force "$GITHUB_ACTION_PATH/$GUEST_OS/Vagrantfile" "$GITHUB_WORKSPACE/Vagrantfile"
+      
+      # Intercept the `run` steps to send the script to the VM.
       sudo ln --force "$GITHUB_ACTION_PATH/shell" /bin/bash
-      sudo vagrant up
+
+      # The `vagrant ssh` command (in `shell`) is "path-aware", so it must be
+      # executed from within the directory of the Vagrantfile. Rather than 
+      # hardcode this path in `shell` or require the user to supply it, let's
+      # persist it in the environment.
+      echo "EMULATE_VAGRANT_PATH=$GITHUB_ACTION_PATH/$GUEST_OS" >> "$GITHUB_ENV"
+      
+      cd "$GITHUB_ACTION_PATH/$GUEST_OS" && sudo vagrant up
