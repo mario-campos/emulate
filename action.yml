@@ -19,7 +19,7 @@ runs:
         libvirt-daemon-system \
         qemu-kvm \
         qemu-utils \
-        libstring-shellquote-perl \
+        libfile-slurper-perl \
         >/dev/null 2>&1
         
       sudo systemctl --quiet start libvirtd.service
