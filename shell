@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use String::ShellQuote;
+
+exec 'vagrant', 'ssh', '-c', shell_quote_best_effort(@ARGV);
