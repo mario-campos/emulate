@@ -2,8 +2,8 @@
 
 use strict;
 use warnings;
-use String::ShellQuote;
+use File::Slurper;
 
 unshift @ARGV, $0;
 chdir $ENV{EMULATE_VAGRANT_PATH};
-exec 'sudo', 'vagrant', 'ssh', '-c', shell_quote_best_effort(@ARGV);
+exec 'sudo', 'vagrant', 'ssh', '-c', read_text($ARGV[-1]);
