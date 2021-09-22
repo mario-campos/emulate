@@ -13,8 +13,5 @@ runs:
       GUEST_OS: ${{ inputs.operating-system }}
     run: |
       sudo apt-get -qq install --no-install-recommends vagrant vagrant-libvirt libvirt-daemon libvirt-daemon-system qemu-kvm qemu-utils
-      
-      sudo systemctl start libvirtd.service
-      
-      cd "$GITHUB_ACTION_PATH/$GUEST_OS"
-      sudo vagrant up
+      sudo systemctl --quiet start libvirtd.service
+      cd "$GITHUB_ACTION_PATH/$GUEST_OS" && sudo vagrant up
