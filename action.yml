@@ -30,4 +30,5 @@ runs:
       # persist it in the environment.
       echo "EMULATE_VAGRANT_PATH=$GITHUB_ACTION_PATH/$GUEST_OS" >> "$GITHUB_ENV"
       
-      cd "$GITHUB_ACTION_PATH/$GUEST_OS" && sudo vagrant up
+      cd "$GITHUB_ACTION_PATH/$GUEST_OS"
+      nice -n -20 sudo vagrant up
