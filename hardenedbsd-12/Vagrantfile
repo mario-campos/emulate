@@ -1,0 +1,10 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/hardenedbsd12"
+  config.vm.box_version = "3.4.2"
+  config.vm.box_check_update = false
+  config.vm.provision "shell", inline: "pkg install git"
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.driver = "qemu"
+    libvirt.memory = 6144 # 6 GiB
+  end
+end
