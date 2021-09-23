@@ -13,8 +13,8 @@ runs:
       GUEST_OS: ${{ inputs.operating-system }}
     run: |
       if [[ "$RUNNER_OS" == macOS ]]; then
-        brew --quiet install qemu libvirt vagrant
-        brew --quiet services start libvirt
+        brew install qemu libvirt vagrant
+        brew services start libvirt
         vagrant plugin install vagrant-libvirt
       elif [[ "$RUNNER_OS" == Linux ]]; then
         sudo apt-get install --yes --no-install-recommends \
