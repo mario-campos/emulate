@@ -12,17 +12,23 @@ runs:
     env:
       GUEST_OS: ${{ inputs.operating-system }}
     run: |
-      sudo apt-get install --yes --no-install-recommends \
-        vagrant \
-        vagrant-libvirt \
-        libvirt-daemon \
-        libvirt-daemon-system \
-        qemu-kvm \
-        qemu-utils \
-        >/dev/null 2>&1
+      if [[ "$RUNNER_OS" == macOS ]]; then
+        brew --quiet install qemu libvirt vagrant
+        brew --quiet services start libvirt
+        vagrant plugin install vagrant-libvirt
+      elif [[ "$RUNNER_OS" == Linux ]]; then
+        sudo apt-get install --yes --no-install-recommends \
+          vagrant \
+          vagrant-libvirt \
+          libvirt-daemon \
+          libvirt-daemon-system \
+          qemu-kvm \
+          qemu-utils \
+          >/dev/null 2>&1
+      fi
         
       # Intercept the `run` steps to send the script to the VM.
-      sudo ln --force "$GITHUB_ACTION_PATH/shell" /bin/bash
+      sudo ln -f "$GITHUB_ACTION_PATH/shell" /bin/bash
 
       # The `vagrant ssh` command (in `shell`) is "path-aware", so it must be
       # executed from within the directory of the Vagrantfile. Rather than 
