@@ -42,4 +42,4 @@ runs:
       done
 
       cd "$EMULATE_VAGRANT_PATH"
-      nice -n -20 sudo vagrant up
+      sudo nice -n -20 vagrant up
