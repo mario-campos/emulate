@@ -1,0 +1,10 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+open my $fh, '<', $ARGV[-1];
+read $fh, my $run_script, -s $fh;
+
+chdir $ENV{EMULATE_VAGRANT_PATH};
+exec 'sudo', 'vagrant', 'ssh', '-c', $run_script;

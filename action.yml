@@ -31,20 +31,14 @@ runs:
           >/dev/null 2>&1
       fi
  
-      # Intercept the original `run` bash scripts by copying them to
-      # another file. This allows us to "inject" a new shell script
-      # that will "forward" the original shell `run` steps to the guest.
-      for run_script in "$(dirname "$BASH_SOURCE")"/*.sh
-      do
-        intercepted="$(mktemp)"
-        echo "\$intercepted = $intercepted"
-        mv -f "$run_script" "$intercepted"
-        echo --- "cat '$intercepted'" ---
-        cat "$intercepted"
-        echo "cd '$EMULATE_VAGRANT_PATH' && exec sudo vagrant ssh -c \"\$(cat '$intercepted')\"" > "$run_script"
-        echo --- "cat '$run_script'" ---
-        cat "$run_script"
-      done
+      # Intercept the `run` steps to send the script to the VM.
+      sudo ln --force "$GITHUB_ACTION_PATH/shell" /bin/bash
+
+      # The `vagrant ssh` command (in `shell`) is "path-aware", so it must be
+      # executed from within the directory of the Vagrantfile. Rather than 
+      # hardcode this path in `shell` or require the user to supply it, let's
+      # persist it in the environment.
+      echo "EMULATE_VAGRANT_PATH=$EMULATE_VAGRANT_PATH" >> "$GITHUB_ENV"
 
       cd "$EMULATE_VAGRANT_PATH"
       sudo nice -n -20 vagrant up
