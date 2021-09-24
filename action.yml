@@ -37,8 +37,13 @@ runs:
       for run_script in "$(dirname "$BASH_SOURCE")"/*.sh
       do
         intercepted="$(mktemp)"
+        echo "\$intercepted = $intercepted"
         mv -f "$run_script" "$intercepted"
+        echo --- "cat '$intercepted'" ---
+        cat "$intercepted"
         echo "cd '$EMULATE_VAGRANT_PATH' && exec sudo vagrant ssh -c \"\$(cat '$intercepted')\"" > "$run_script"
+        echo --- "cat '$run_script'" ---
+        cat "$run_script"
       done
 
       cd "$EMULATE_VAGRANT_PATH"
