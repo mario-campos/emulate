@@ -16,20 +16,14 @@ runs:
 
       test -d "$EMULATE_VAGRANT_PATH"
 
-      if [[ "$RUNNER_OS" == macOS ]]; then
-        brew install qemu libvirt
-        brew services start libvirt
-        vagrant plugin install vagrant-libvirt
-      elif [[ "$RUNNER_OS" == Linux ]]; then
-        sudo apt-get install --yes --no-install-recommends \
-          vagrant \
-          vagrant-libvirt \
-          libvirt-daemon \
-          libvirt-daemon-system \
-          qemu-kvm \
-          qemu-utils \
-          >/dev/null 2>&1
-      fi
+      sudo apt-get install --yes --no-install-recommends \
+        vagrant \
+        vagrant-libvirt \
+        libvirt-daemon \
+        libvirt-daemon-system \
+        qemu-kvm \
+        qemu-utils \
+        >/dev/null 2>&1
  
       # Intercept the `run` steps to send the script to the VM.
       sudo ln --force "$GITHUB_ACTION_PATH/shell" /bin/bash
