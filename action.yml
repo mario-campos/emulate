@@ -17,7 +17,7 @@ runs:
       test -d "$EMULATE_VAGRANT_PATH"
 
       if [[ "$RUNNER_OS" == macOS ]]; then
-        brew install qemu libvirt vagrant
+        brew install qemu libvirt
         brew services start libvirt
         vagrant plugin install vagrant-libvirt
       elif [[ "$RUNNER_OS" == Linux ]]; then
