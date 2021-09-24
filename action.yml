@@ -12,6 +12,10 @@ runs:
     env:
       GUEST_OS: ${{ inputs.operating-system }}
     run: |
+      EMULATE_VAGRANT_PATH="$GITHUB_ACTION_PATH/$GUEST_OS"
+
+      test -d "$EMULATE_VAGRANT_PATH"
+
       if [[ "$RUNNER_OS" == macOS ]]; then
         brew install qemu libvirt vagrant
         brew services start libvirt
@@ -26,15 +30,27 @@ runs:
           qemu-utils \
           >/dev/null 2>&1
       fi
-        
-      # Intercept the `run` steps to send the script to the VM.
-      sudo ln -f "$GITHUB_ACTION_PATH/shell" /bin/bash
+ 
+      if [[ "$RUNNER_OS" == macOS ]]; then
+        for script in /Users/runner/work/_temp/*.sh
+        do
+          temp="$(dirname "$script")/$(basename "$(mktemp -u)")"
+          mv "$script" "$temp"
+          cat >"$script" <<EOF
+          set -x
+          cd '$EMULATE_VAGRANT_PATH' && exec sudo vagrant ssh -c "\$(cat '$temp')"  
+          EOF
+        done
+      elif [[ "$RUNNER_OS" == Linux ]]; then
+        # Intercept the `run` steps to send the script to the VM.
+        sudo ln -f "$GITHUB_ACTION_PATH/shell" /bin/bash
 
-      # The `vagrant ssh` command (in `shell`) is "path-aware", so it must be
-      # executed from within the directory of the Vagrantfile. Rather than 
-      # hardcode this path in `shell` or require the user to supply it, let's
-      # persist it in the environment.
-      echo "EMULATE_VAGRANT_PATH=$GITHUB_ACTION_PATH/$GUEST_OS" >> "$GITHUB_ENV"
-      
-      cd "$GITHUB_ACTION_PATH/$GUEST_OS"
+        # The `vagrant ssh` command (in `shell`) is "path-aware", so it must be
+        # executed from within the directory of the Vagrantfile. Rather than 
+        # hardcode this path in `shell` or require the user to supply it, let's
+        # persist it in the environment.
+        echo "EMULATE_VAGRANT_PATH=$EMULATE_VAGRANT_PATH" >> "$GITHUB_ENV"
+      fi
+
+      cd "$EMULATE_VAGRANT_PATH"
       nice -n -20 sudo vagrant up
