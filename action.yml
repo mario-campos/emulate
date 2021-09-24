@@ -31,26 +31,15 @@ runs:
           >/dev/null 2>&1
       fi
  
-      if [[ "$RUNNER_OS" == macOS ]]; then
-        for script in /Users/runner/work/_temp/*.sh
-        do
-          temp="$(dirname "$script")/$(basename "$(mktemp -u)")"
-          mv "$script" "$temp"
-          cat >"$script" <<EOF
-          set -x
-          cd '$EMULATE_VAGRANT_PATH' && exec sudo vagrant ssh -c "\$(cat '$temp')"  
-          EOF
-        done
-      elif [[ "$RUNNER_OS" == Linux ]]; then
-        # Intercept the `run` steps to send the script to the VM.
-        sudo ln -f "$GITHUB_ACTION_PATH/shell" /bin/bash
-
-        # The `vagrant ssh` command (in `shell`) is "path-aware", so it must be
-        # executed from within the directory of the Vagrantfile. Rather than 
-        # hardcode this path in `shell` or require the user to supply it, let's
-        # persist it in the environment.
-        echo "EMULATE_VAGRANT_PATH=$EMULATE_VAGRANT_PATH" >> "$GITHUB_ENV"
-      fi
+      # Intercept the original `run` bash scripts by copying them to
+      # another file. This allows us to "inject" a new shell script
+      # that will "forward" the original shell `run` steps to the guest.
+      for run_script in "$(dirname "$BASH_SOURCE")"/*.sh
+      do
+        intercepted="$(mktemp)"
+        mv -f "$run_script" "$intercepted"
+        echo "cd '$EMULATE_VAGRANT_PATH' && exec sudo vagrant ssh -c \"\$(cat '$intercepted')\"" > "$run_script"
+      done
 
       cd "$EMULATE_VAGRANT_PATH"
       nice -n -20 sudo vagrant up
