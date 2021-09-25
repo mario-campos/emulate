@@ -11,6 +11,6 @@ Vagrant.configure("2") do |config|
     libvirt.memory = 7 * 1024 * 0.75
   end
 
-  config.ssh.shell = "su -"
+  config.ssh.shell = "sh"
   config.ssh.insert_key = false
 end
