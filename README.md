@@ -6,7 +6,7 @@ GitHub Actions for BSD.
 runs-on: ubuntu-latest
 steps:
 - name: Bootstrap DragonflyBSD 5.2.0
-  uses: mario-campos/emulate@v1
+  uses: mario-campos/emulate@main
   with:
     operating-system: dragonflybsd-5.2.0
 - name: Build
@@ -17,16 +17,13 @@ steps:
 
 ### Supported operating systems
 
-| OS tag               | Status             | Notes |
-| -------------------- | ------------------ | ----- |
-| `openbsd-6.9`        | :heavy_check_mark: | Default shell is `bash`. `doas` and `sudo` are both configured. |
-| `freebsd-13.0`       | :heavy_check_mark: ||
-| `netbsd-9.2`         | :heavy_check_mark: ||
-| `dragonflybsd-5.2.0` | :heavy_check_mark: ||
-| `hardenedbsd-13`     | :x:                ||
-
-### Included software
-- `git`
+| Input                | Status             | Included packages   | Notes |
+| -------------------- | :----------------: | ------------------- | ----- |
+| `openbsd-6.9`        | :heavy_check_mark: | git sudo bash       | Default shell is `bash`. `doas` and `sudo` are both configured. |
+| `freebsd-13.0`       | :heavy_check_mark: | git                 |       |
+| `netbsd-9.2`         | :heavy_check_mark: | git ca-certificates |       |
+| `dragonflybsd-5.2.0` | :heavy_check_mark: | git                 |       |
+| `hardenedbsd-13`     | :x:                |||
 
 ### Limitations
 - :heavy_exclamation_mark: This Action is still very experimental :heavy_exclamation_mark:
