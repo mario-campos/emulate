@@ -24,15 +24,10 @@ runs:
         qemu-kvm \
         qemu-utils \
         >/dev/null 2>&1
- 
-      # Intercept the `run` steps to send the script to the VM.
-      sudo ln --force "$GITHUB_ACTION_PATH/shell" /bin/bash
 
-      # The `vagrant ssh` command (in `shell`) is "path-aware", so it must be
-      # executed from within the directory of the Vagrantfile. Rather than 
-      # hardcode this path in `shell` or require the user to supply it, let's
-      # persist it in the environment.
+      # Intercept the `run` steps to send the script to the VM.
       echo "EMULATE_VAGRANT_PATH=$EMULATE_VAGRANT_PATH" >> "$GITHUB_ENV"
+      echo "BASH_ENV=$GITHUB_ACTION_PATH/hijack.sh" >> "$GITHUB_ENV"
 
       cd "$EMULATE_VAGRANT_PATH"
       sudo nice -n -20 vagrant up
