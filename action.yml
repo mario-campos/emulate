@@ -26,8 +26,13 @@ runs:
         >/dev/null 2>&1
 
       # Intercept the `run` steps to send the script to the VM.
-      echo "EMULATE_VAGRANT_PATH=$EMULATE_VAGRANT_PATH" >> "$GITHUB_ENV"
-      echo "BASH_ENV=$GITHUB_ACTION_PATH/hijack.sh" >> "$GITHUB_ENV"
+      BASH_ENV="$(mktemp)"
+      echo "BASH_ENV=$BASH_ENV" >> "$GITHUB_ENV"
+      cat >"$BASH_ENV" <<EOF
+      read -r -a BASH_ARGS <<< "\$(ps -p \$$ -o args=)"
+      cd '$EMULATE_VAGRANT_PATH'
+      exec sudo vagrant ssh -c "\$(cat "\${BASH_ARGS[@]: -1:1}")"
+      EOF
 
       cd "$EMULATE_VAGRANT_PATH"
       sudo nice -n -20 vagrant up
