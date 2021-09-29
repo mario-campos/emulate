@@ -20,7 +20,7 @@ steps:
 | Input                | Status             | Included packages   | Notes |
 | -------------------- | :----------------: | ------------------- | ----- |
 | `openbsd-6.9`        | :heavy_check_mark: | git sudo bash       | Default shell is `bash`. `doas` and `sudo` are both configured. |
-| `freebsd-13.0`       | :heavy_check_mark: | git                 |       |
+| `freebsd-12.2`       | :heavy_check_mark: | git                 |       |
 | `netbsd-9.2`         | :heavy_check_mark: | git ca-certificates |       |
 | `dragonflybsd-5.2.0` | :heavy_check_mark: | git                 |       |
 | `hardenedbsd-13`     | :x:                |||
