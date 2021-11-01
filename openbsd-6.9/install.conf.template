@@ -1,0 +1,8 @@
+System hostname = openbsd-ci
+Password for root = toor
+Do you expect to run the X Window System? = no
+Setup a user = ${username}
+Password for user ${username} = ${password}
+What timezone are you in? = UTC
+Set name(s) = -all bsd* base* comp*
+Directory does not contain SHA256.sig. Continue without verification? = yes
