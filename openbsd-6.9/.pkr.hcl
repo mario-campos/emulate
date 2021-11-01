@@ -1,5 +1,6 @@
 locals {
   username = "runner"
+  password = "vagrant"
 }
 
 source "virtualbox-iso" "openbsd-6.9" {
@@ -9,13 +10,16 @@ source "virtualbox-iso" "openbsd-6.9" {
   iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/SHA256"
 
   ssh_username = local.username
-  ssh_password = "vagrant"
+  ssh_password = local.password
 
   shutdown_command = "halt -p"
   disk_size = 10240 # 10 GB
 
   http_content = {
-    "/install.conf" = templatefile("${path.root}/install.conf.template", { username = local.username })
+    "/install.conf" = templatefile("${path.root}/install.conf.template", {
+      username = local.username,
+      password = local.password,
+    })
   }
 
   boot_wait = "20s"
