@@ -12,7 +12,7 @@ source "virtualbox-iso" "openbsd-6.9" {
   ssh_username = local.username
   ssh_password = local.password
 
-  shutdown_command = "halt -p"
+  shutdown_command = "shutdown -p now"
   disk_size = 10240 # 10 GB
 
   http_content = {
