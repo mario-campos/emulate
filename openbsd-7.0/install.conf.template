@@ -1,8 +1,7 @@
 System hostname? = openbsd-ci
-Password for root account = toor
+Password for root account = ${root_password}
+Allow root ssh login = yes
 Do you expect to run the X Window System? = no
-Setup a user = ${username}
-Password for user ${username} = ${password}
 Set name(s) = -all bsd* base* comp*
 What timezone are you in? = UTC
 Directory does not contain SHA256.sig. Continue without verification? = yes
