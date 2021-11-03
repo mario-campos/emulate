@@ -29,3 +29,7 @@ source "virtualbox-iso" "openbsd-6.9" {
     "http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter>",
   ]
 }
+
+build {
+  sources = ["sources.virtualbox-iso.openbsd-6.9"]
+}
