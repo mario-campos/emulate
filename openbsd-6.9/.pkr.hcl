@@ -14,6 +14,7 @@ source "virtualbox-iso" "openbsd" {
 
   shutdown_command = "shutdown -p now"
   disk_size = 10240 # 10 GB
+  guest_additions_mode = "disable"
 
   http_content = {
     "/install.conf" = templatefile("${path.root}/install.conf.template", {
