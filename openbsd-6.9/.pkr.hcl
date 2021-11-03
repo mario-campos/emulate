@@ -3,7 +3,7 @@ locals {
   password = "vagrant"
 }
 
-source "virtualbox-iso" "openbsd-6.9" {
+source "virtualbox-iso" "openbsd" {
   guest_os_type = "OpenBSD_64"
 
   iso_url = "https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/install69.iso"
@@ -31,5 +31,5 @@ source "virtualbox-iso" "openbsd-6.9" {
 }
 
 build {
-  sources = ["sources.virtualbox-iso.openbsd-6.9"]
+  sources = ["sources.virtualbox-iso.openbsd"]
 }
