@@ -40,12 +40,12 @@ build {
   sources = ["sources.virtualbox-iso.default"]
 
   provisioner "file" {
-    source      = "sshd_config"
+    source      = "${path.root}/sshd_config"
     destination = "/etc/ssh/sshd_config"
   }
 
   provisioner "file" {
-    source      = "authorized_keys"
+    source      = "${path.root}/authorized_keys"
     destination = ".ssh/authorized_keys"
   }
 
@@ -59,7 +59,7 @@ build {
   post-processors {
     post-processor "vagrant" {
       compression_level    = 9
-      vagrantfile_template = "Vagrantfile"
+      vagrantfile_template = "${path.root}/Vagrantfile"
       output               = local.box_name
     }
 
