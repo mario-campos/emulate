@@ -1,8 +1,12 @@
 locals {
+  version      = "0.1.0"
   ssh_password = "vagrant"
+  id           = dirname(abspath(path.root))
+  git_tag      = "${local.id}_${local.version}"
+  box_name     = "${local.id}.box"
 }
 
-source "virtualbox-iso" "openbsd" {
+source "virtualbox-iso" "default" {
   guest_os_type = "OpenBSD_64"
 
   iso_url      = "https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/install70.iso"
@@ -33,7 +37,7 @@ source "virtualbox-iso" "openbsd" {
 }
 
 build {
-  sources = ["sources.virtualbox-iso.openbsd"]
+  sources = ["sources.virtualbox-iso.default"]
 
   provisioner "file" {
     source      = "sshd_config"
@@ -56,11 +60,17 @@ build {
     post-processor "vagrant" {
       compression_level    = 9
       vagrantfile_template = "Vagrantfile"
+      output               = local.box_name
     }
+
+    post-processor "shell-local" {
+      command = "gh release create '${local.git_tag}' '${local.box_name}'"
+    }
+
     post-processor "vagrant-cloud" {
-      box_tag             = "emulate/openbsd-7.0"
-      version             = "0.1.4"
-      keep_input_artifact = false
+      box_tag          = "emulate/${local.id}"
+      version          = local.version
+      box_download_url = "https://github.com/mario-campos/emulate/releases/download/${local.git_tag}/${local.box_name}"
     }
   }
 }

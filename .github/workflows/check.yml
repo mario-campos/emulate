@@ -1,0 +1,27 @@
+on: [push, pull_request]
+
+jobs:
+  setup-hashicorp:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Hashicorp Packer, Vagrant
+      run: |
+        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+        sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        sudo apt-get update
+        sudo apt-get install packer vagrant
+  format:
+    runs-on: ubuntu-latest
+    needs: [setup-hashicorp]
+    strategy:
+      matrix:
+        os: [openbsd-7.0]
+    steps:
+    - name: Validate Packer HCL
+      run: packer validate "${{ matrix.os }}"
+    - name: Validate Vagrant HCL
+      run: vagrant validate "${{ matrix.os }}"
+    - name: Check Packer HCL formatting
+      run: |
+        packer fmt "${{ matrix.os }}"
+        git diff -u
