@@ -14,6 +14,7 @@ source "virtualbox-iso" "openbsd" {
   disk_size            = 14336 # 14 GB
   hard_drive_interface = "scsi"
 
+  headless             = true
   guest_additions_mode = "disable" # OpenBSD is unsupported
   shutdown_command     = "shutdown -p now"
 
@@ -33,10 +34,33 @@ source "virtualbox-iso" "openbsd" {
 
 build {
   sources = ["sources.virtualbox-iso.openbsd"]
+
+  provisioner "file" {
+    source      = "sshd_config"
+    destination = "/etc/ssh/sshd_config"
+  }
+
+  provisioner "file" {
+    source      = "authorized_keys"
+    destination = ".ssh/authorized_keys"
+  }
+
   provisioner "shell" {
     inline = [
       "rcctl disable cron pflogd slaacd sndiod",
       "pkg_add git-2.33.0 got-0.60",
     ]
+  }
+
+  post-processors {
+    post-processor "vagrant" {
+      compression_level    = 9
+      vagrantfile_template = "Vagrantfile"
+    }
+    post-processor "vagrant-cloud" {
+      box_tag             = "emulate/openbsd-7.0"
+      version             = "0.1.4"
+      keep_input_artifact = false
+    }
   }
 }

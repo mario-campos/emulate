@@ -1,17 +1,32 @@
 Vagrant.configure("2") do |config|
   config.vm.guest = "openbsd"
 
-  config.vm.box = "generic/openbsd6"
-  config.vm.box_version = "3.4.2"
-  config.vm.box_check_update = false
+  # Disable Synced Folders, because OpenBSD does not support
+  # natively support NFS, SMB, etc.
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "virtualbox" do |virtualbox|
-    virtualbox.check_guest_additions = false
-    virtualbox.memory = 14 * 1024 * 0.75
+    # These resource allocations are pre-determined 
+    # (and limited) by the `macos-10.15` runner.
     virtualbox.cpus = 2
+    virtualbox.memory = (14 * 1024 * 0.75).to_i
+
+    # Suppress the checking of guest additions, since
+    # OpenBSD does not support guest additions.
+    virtualbox.check_guest_additions = false
   end
 
+  # The "vagrant" user account does not exist; only
+  # root is available in the VM.
   config.ssh.username = "root"
+
+  # Replacing the default, insecure key is slow and
+  # unnecessary for ephemeral VMs such as this.
   config.ssh.insert_key = false
+
+  # OpenBSD uses doas(1) by default, not sudo(1).
   config.ssh.sudo_command = "doas %c"
+
+  # OpenBSD uses ksh(1) by default.
+  config.ssh.shell = "ksh -l"
 end
