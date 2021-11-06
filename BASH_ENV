@@ -1,8 +1,3 @@
-ps -p $$ -o args= | xargs -n 1 | while read ARG; do ARGS+=($ARG); done
-
-declare -p ARGS
-
-echo "${ARGS[-1]}"
-
+ps -p $$ -o args= | xargs -n 1 | while read arg; do BASH_ARGS+=($arg); done
 cd "$RUNNER_TEMP"
-exec sudo vagrant ssh -c "$(cat "${ARGS[-1]}")"
+exec sudo vagrant ssh -c "$(cat "${BASH_ARGS[@]: -1:1}")"
