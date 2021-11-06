@@ -13,6 +13,8 @@ runs:
     run: |
       BASH_ENV="$(mktemp)"
       cat >"$BASH_ENV" <<EOF
+      ps -p \$$ -o args=
+
       # Parse the parent bash's command line.
       read -r -a BASH_ARGS <<< "\$(ps -p \$$ -o args=)"
 
