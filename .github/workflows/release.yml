@@ -12,8 +12,8 @@ jobs:
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v2
-      - name: Build new ${{ inputs.os }} release
+      - name: Build new ${{ github.event.inputs.os }} release
         env:
-          OS: ${{ inputs.os }}
+          OS: ${{ github.event.inputs.os }}
           VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
         run: packer build "$OS"
