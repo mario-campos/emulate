@@ -7,34 +7,10 @@ inputs:
 runs:
   using: composite
   steps:
-  - shell: bash
-    env:
-      GUEST_OS: ${{ inputs.operating-system }}
+  - name: Boot guest ${{ inputs.operating-system }}.
+    shell: bash
     run: |
-      BASH_ENV="$(mktemp)"
-      cat >"$BASH_ENV" <<EOF
-      ps -p \$$ -o args=
-
-      # Parse the parent bash's command line.
-      read -r -a BASH_ARGS <<< "\$(ps -p \$$ -o args=)"
-
-      # Get the last argument of the command line, which should be the script path.
-      RUN_STEP_PATH="${BASH_ARGS[@]: -1:1}"
-
-
-      echo "Original run script: \$RUN_STEP_PATH"
-      echo ---
-      cat "\$RUN_STEP_PATH"
-      echo ---
-
-      # Must be in the directory of the Vagrantfile for `vagrant` to work.
-      cd '$RUNNER_TEMP'
-
-      # Proxy the body of the run step to the guest.
-      exec sudo vagrant ssh -c "\$(cat '\$RUN_STEP_PATH')"
-      EOF
-      echo "BASH_ENV=$BASH_ENV" >> "$GITHUB_ENV"
-
       cd "$RUNNER_TEMP"
-      vagrant init "emulate/$GUEST_OS"
+      vagrant init "emulate/${{ inputs.operating-system }}"
       sudo nice -n -20 vagrant up
+      echo "BASH_ENV=$GITHUB_ACTION_PATH/BASH_ENV" >> "$GITHUB_ENV"
