@@ -1,9 +1,7 @@
 locals {
   version      = "0.1.0"
   ssh_password = "vagrant"
-  id           = dirname(abspath(path.root))
-  git_tag      = "${local.id}_${local.version}"
-  box_name     = "${local.id}.box"
+  id           = basename(abspath(path.root))
 }
 
 source "virtualbox-iso" "default" {
@@ -60,17 +58,10 @@ build {
     post-processor "vagrant" {
       compression_level    = 9
       vagrantfile_template = "${path.root}/Vagrantfile"
-      output               = local.box_name
     }
-
-    post-processor "shell-local" {
-      command = "gh release create '${local.git_tag}' '${local.box_name}'"
-    }
-
     post-processor "vagrant-cloud" {
       box_tag          = "emulate/${local.id}"
       version          = local.version
-      box_download_url = "https://github.com/mario-campos/emulate/releases/download/${local.git_tag}/${local.box_name}"
     }
   }
 }
