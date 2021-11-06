@@ -2,7 +2,7 @@ ps -p $$ -o args= | xargs -n 1 | while read ARG; do ARGS+=($ARG); done
 
 declare -p ARGS
 
-echo "${ARG[-1]}"
+echo "${ARGS[-1]}"
 
 cd "$RUNNER_TEMP"
-exec sudo vagrant ssh -c "$(cat "$ARGS[-1]")"
+exec sudo vagrant ssh -c "$(cat "${ARGS[-1]}")"
