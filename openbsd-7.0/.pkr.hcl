@@ -10,7 +10,11 @@ locals {
 source "virtualbox-iso" "default" {
   guest_os_type = "OpenBSD_64"
 
-  headless = var.headless
+  cpus   = 2
+  memory = 14 * 1024 * 0.75
+
+  disk_size            = 10 * 1024
+  hard_drive_interface = "scsi"
 
   iso_url      = "https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/install70.iso"
   iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/SHA256"
@@ -18,11 +22,9 @@ source "virtualbox-iso" "default" {
   ssh_username = "root"
   ssh_password = local.ssh_password
 
-  disk_size            = 4096
-  hard_drive_interface = "scsi"
-
   guest_additions_mode = "disable" # OpenBSD is unsupported
   shutdown_command     = "shutdown -p now"
+  headless             = var.headless
 
   http_content = {
     "/install.conf" = templatefile("install.conf.template", {

@@ -3,12 +3,12 @@
 GitHub Actions for BSD.
 
 ```yaml
-runs-on: ubuntu-latest
+runs-on: macos-10.15
 steps:
-- name: Bootstrap DragonflyBSD 5.2.0
+- name: Bootstrap OpenBSD 7.0
   uses: mario-campos/emulate@main
   with:
-    operating-system: dragonflybsd-5.2.0
+    operating-system: openbsd-7.0
 - name: Build
   run: |
     git clone https://github.com/foo/bar.git
