@@ -1,0 +1,7 @@
+System hostname? = openbsd
+Password for root account = ${root_password}
+Allow root ssh login = yes
+Do you expect to run the X Window System? = no
+Set name(s) = -all bsd* base* comp*
+What timezone are you in? = UTC
+Directory does not contain SHA256.sig. Continue without verification? = yes
