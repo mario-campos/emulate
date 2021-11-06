@@ -12,27 +12,19 @@ runs:
     env:
       GUEST_OS: ${{ inputs.operating-system }}
     run: |
-      EMULATE_VAGRANT_PATH="$GITHUB_ACTION_PATH/$GUEST_OS"
-
-      test -d "$EMULATE_VAGRANT_PATH"
-
-      sudo apt-get install --yes --no-install-recommends \
-        vagrant \
-        vagrant-libvirt \
-        libvirt-daemon \
-        libvirt-daemon-system \
-        qemu-kvm \
-        qemu-utils \
-        >/dev/null 2>&1
-
-      # Intercept the `run` steps to send the script to the VM.
       BASH_ENV="$(mktemp)"
-      echo "BASH_ENV=$BASH_ENV" >> "$GITHUB_ENV"
       cat >"$BASH_ENV" <<EOF
+      # Get the bash script containing the body of the run step.
       read -r -a BASH_ARGS <<< "\$(ps -p \$$ -o args=)"
-      cd '$EMULATE_VAGRANT_PATH'
+
+      # Must be the directory of the Vagrantfile for `vagrant` to work.
+      cd '$RUNNER_TEMP'
+
+      # Proxy the body of the run step to the guest.
       exec sudo vagrant ssh -c "\$(cat "\${BASH_ARGS[@]: -1:1}")"
       EOF
+      echo "BASH_ENV=$BASH_ENV" >> "$GITHUB_ENV"
 
-      cd "$EMULATE_VAGRANT_PATH"
+      cd "$RUNNER_TEMP"
+      vagrant init "emulate/$GUEST_OS"
       sudo nice -n -20 vagrant up
