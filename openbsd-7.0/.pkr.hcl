@@ -19,7 +19,7 @@ source "virtualbox-iso" "default" {
   ssh_username = "root"
   ssh_password = local.ssh_password
 
-  disk_size            = 14336 # 14 GB
+  disk_size            = 4096
   hard_drive_interface = "scsi"
 
   guest_additions_mode = "disable" # OpenBSD is unsupported
