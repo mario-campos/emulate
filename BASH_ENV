@@ -1,11 +1,11 @@
+# In order to execute the below `vagrant ssh` command, we must be in the directory
+# of the Vagrantfile.
+cd "$RUNNER_TEMP"
+
 # Determine the path to the bash script containing the body of "this" run step.
 # Unfortunately, because macos-10.15 is using an older version of Bash (3.2),
 # we cannot use its newer array subscripting features yet.
 RUN_SCRIPT="$(ps -p $$ -o args= | xargs -n 1 | tail -n 1)"
-
-# In order to execute the below `vagrant ssh` command, we must be in the directory
-# of the Vagrantfile.
-cd "$RUNNER_TEMP"
 
 # Proxy the body of the run step to the guest virtual machine.
 # It's important that this is `exec`uted, because this is what cause this BASH_ENV
