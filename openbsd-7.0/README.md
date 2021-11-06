@@ -1,6 +1,9 @@
 # OpenBSD 7.0
 
 - User: root
+- vCPU: 2
+- RAM: 10.5 GiB
+- Storage: 14 GiB
 
 ### Included file sets
 
