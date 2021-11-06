@@ -1,4 +1,6 @@
-on: [push, pull_request]
+name: Check
+
+on: [push]
 
 jobs:
   setup-hashicorp:
@@ -22,7 +24,7 @@ jobs:
     - name: Validate Packer HCL
       run: packer validate "${{ matrix.os }}"
       env:
-        VAGRANT_CLOUD_TOKEN: token
+        VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
     - name: Validate Vagrant HCL
       run: vagrant validate "${{ matrix.os }}"
     - name: Check Packer HCL formatting
