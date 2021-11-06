@@ -9,8 +9,8 @@ runs:
   steps:
   - name: Boot guest ${{ inputs.operating-system }}.
     shell: bash
+    working-directory: ${{ runner.temp }}
     run: |
-      cd "$RUNNER_TEMP"
       vagrant init "emulate/${{ inputs.operating-system }}"
       sudo nice -n -20 vagrant up
       echo "BASH_ENV=$GITHUB_ACTION_PATH/BASH_ENV" >> "$GITHUB_ENV"
