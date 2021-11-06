@@ -7,21 +7,29 @@ inputs:
 runs:
   using: composite
   steps:
-  - name: Setup QEMU and the guest OS virtual machine.
-    shell: bash
+  - shell: bash
     env:
       GUEST_OS: ${{ inputs.operating-system }}
     run: |
       BASH_ENV="$(mktemp)"
       cat >"$BASH_ENV" <<EOF
-      # Get the bash script containing the body of the run step.
+      # Parse the parent bash's command line.
       read -r -a BASH_ARGS <<< "\$(ps -p \$$ -o args=)"
 
-      # Must be the directory of the Vagrantfile for `vagrant` to work.
+      # Get the last argument of the command line, which should be the script path.
+      RUN_STEP_PATH="${BASH_ARGS[@]: -1:1}"
+
+
+      echo "Original run script: \$RUN_STEP_PATH"
+      echo ---
+      cat "\$RUN_STEP_PATH"
+      echo ---
+
+      # Must be in the directory of the Vagrantfile for `vagrant` to work.
       cd '$RUNNER_TEMP'
 
       # Proxy the body of the run step to the guest.
-      exec sudo vagrant ssh -c "\$(cat "\${BASH_ARGS[@]: -1:1}")"
+      exec sudo vagrant ssh -c "\$(cat '\$RUN_STEP_PATH')"
       EOF
       echo "BASH_ENV=$BASH_ENV" >> "$GITHUB_ENV"
 
