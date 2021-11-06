@@ -1,5 +1,7 @@
 set -x
+declare -a BASH_ARGS
 ps -p $$ -o args= | xargs -n 1 | while read arg; do BASH_ARGS+=($arg); done
 RUN_SCRIPT="${BASH_ARGS[@]: -1:1}"
+RUN_SCRIPT2="$(ps -p $$ -o args= | xargs -n 1 | tail -n 1)"
 cd "$RUNNER_TEMP"
 exec sudo vagrant ssh -c "$(cat "$RUN_SCRIPT")"
