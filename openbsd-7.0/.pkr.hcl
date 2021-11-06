@@ -1,3 +1,7 @@
+variables {
+  headless = true
+}
+
 locals {
   version      = "0.1.0"
   ssh_password = "vagrant"
@@ -6,6 +10,8 @@ locals {
 
 source "virtualbox-iso" "default" {
   guest_os_type = "OpenBSD_64"
+
+  headless = var.headless
 
   iso_url      = "https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/install70.iso"
   iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/SHA256"
@@ -16,7 +22,6 @@ source "virtualbox-iso" "default" {
   disk_size            = 14336 # 14 GB
   hard_drive_interface = "scsi"
 
-  headless             = true
   guest_additions_mode = "disable" # OpenBSD is unsupported
   shutdown_command     = "shutdown -p now"
 
@@ -60,8 +65,8 @@ build {
       vagrantfile_template = "${path.root}/Vagrantfile"
     }
     post-processor "vagrant-cloud" {
-      box_tag          = "emulate/${local.id}"
-      version          = local.version
+      box_tag = "emulate/${local.id}"
+      version = local.version
     }
   }
 }
