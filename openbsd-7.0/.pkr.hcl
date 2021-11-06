@@ -5,7 +5,6 @@ variables {
 locals {
   version      = "0.1.0"
   ssh_password = "vagrant"
-  id           = basename(abspath(path.root))
 }
 
 source "virtualbox-iso" "default" {
@@ -65,7 +64,7 @@ build {
       vagrantfile_template = "${path.root}/Vagrantfile"
     }
     post-processor "vagrant-cloud" {
-      box_tag = "emulate/${local.id}"
+      box_tag = "emulate/${basename(abspath(path.root))}"
       version = local.version
     }
   }
