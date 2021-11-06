@@ -1,7 +1,14 @@
-set -x
-declare -a BASH_ARGS
-ps -p $$ -o args= | xargs -n 1 | while read arg; do BASH_ARGS+=($arg); done
-RUN_SCRIPT="${BASH_ARGS[@]: -1:1}"
-RUN_SCRIPT2="$(ps -p $$ -o args= | xargs -n 1 | tail -n 1)"
+# Determine the path to the bash script containing the body of "this" run step.
+# Unfortunately, because macos-10.15 is using an older version of Bash (3.2),
+# we cannot use its newer array subscripting features yet.
+RUN_SCRIPT="$(ps -p $$ -o args= | xargs -n 1 | tail -n 1)"
+
+# In order to execute the below `vagrant ssh` command, we must be in the directory
+# of the Vagrantfile.
 cd "$RUNNER_TEMP"
+
+# Proxy the body of the run step to the guest virtual machine.
+# It's important that this is `exec`uted, because this is what cause this BASH_ENV
+# script to "hijack" the original script's execution. Without the `exec`, $RUN_SCRIPT
+# would also execute in the host.
 exec sudo vagrant ssh -c "$(cat "$RUN_SCRIPT")"
