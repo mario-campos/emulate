@@ -1,6 +1,6 @@
 # OpenBSD 7.0
 
-- Default user: `root`
+- User: root
 
 ### Included file sets
 
