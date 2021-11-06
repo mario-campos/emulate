@@ -67,6 +67,7 @@ build {
     post-processor "vagrant" {
       compression_level    = 9
       vagrantfile_template = "${path.root}/Vagrantfile"
+      output = local.box_name
     }
     post-processor "vagrant-cloud" {
       box_tag          = "emulate/${local.id}"
