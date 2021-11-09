@@ -28,4 +28,6 @@ jobs:
     - name: Check Packer HCL formatting
       run: |
         packer fmt "${{ matrix.os }}"
-        git diff -u
+        git diff
+        git diff --compact-summary
+        git diff --quiet
