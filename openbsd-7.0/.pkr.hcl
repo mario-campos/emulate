@@ -3,11 +3,9 @@ variables {
 }
 
 locals {
-  version      = "0.1.0"
+  version      = "0.1.2"
   ssh_password = "vagrant"
   id           = basename(abspath(path.root))
-  tag          = "${local.id}_${local.version}"
-  box_name     = "${local.tag}.box"
 }
 
 source "virtualbox-iso" "default" {
@@ -16,7 +14,7 @@ source "virtualbox-iso" "default" {
   cpus   = 2
   memory = 14 * 1024 * 0.75
 
-  disk_size            = 10 * 1024
+  disk_size            = 14000 # 14 GB
   hard_drive_interface = "scsi"
 
   iso_url      = "https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/install70.iso"
@@ -65,17 +63,11 @@ build {
 
   post-processors {
     post-processor "vagrant" {
-      compression_level    = 9
       vagrantfile_template = "${path.root}/Vagrantfile"
-      output = local.box_name
     }
     post-processor "vagrant-cloud" {
-      box_tag          = "emulate/${local.id}"
-      version          = local.version
-      box_download_url = "https://github.com/mario-campos/emulate/releases/download/${local.tag}/${local.box_name}"
-    }
-    post-processor "shell-local" {
-      command = "gh release create '${local.tag}' '${local.box_name}'"
+      box_tag = "emulate/${local.id}"
+      version = local.version
     }
   }
 }
