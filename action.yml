@@ -10,7 +10,13 @@ runs:
   - name: Boot guest ${{ inputs.operating-system }}.
     shell: bash
     working-directory: ${{ runner.temp }}
+    env:
+      EMULATE_OPERATING_SYSTEM: ${{ inputs.operating-system }}
     run: |
-      vagrant init "emulate/${{ inputs.operating-system }}"
+      case "$EMULATE_OPERATING_SYSTEM" in
+        openbsd-latest) EMULATE_OPERATING_SYSTEM=openbsd-7.0 ;;
+      esac
+
+      vagrant init "emulate/$EMULATE_OPERATING_SYSTEM"
       sudo nice -n -20 vagrant up
       echo "BASH_ENV=$GITHUB_ACTION_PATH/BASH_ENV" >> "$GITHUB_ENV"
