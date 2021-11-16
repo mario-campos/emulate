@@ -6,7 +6,7 @@ GitHub Actions for BSD.
 runs-on: macos-10.15
 steps:
 - name: Bootstrap OpenBSD 7.0
-  uses: mario-campos/emulate@main
+  uses: mario-campos/emulate@v1
   with:
     operating-system: openbsd-7.0
 - name: Build
