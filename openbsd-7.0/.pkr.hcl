@@ -3,7 +3,7 @@ variables {
 }
 
 locals {
-  version      = "0.1.2"
+  version      = "0.1.3"
   ssh_password = "vagrant"
   id           = basename(abspath(path.root))
 }
@@ -63,7 +63,7 @@ build {
 
   post-processors {
     post-processor "vagrant" {
-      vagrantfile_template = "${path.root}/Vagrantfile"
+      vagrantfile_template_generated = false
     }
     post-processor "vagrant-cloud" {
       box_tag = "emulate/${local.id}"
