@@ -17,6 +17,6 @@ runs:
         openbsd-latest) EMULATE_OPERATING_SYSTEM=openbsd-7.0 ;;
       esac
 
-      vagrant init "emulate/$EMULATE_OPERATING_SYSTEM"
+      cd "$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM"
       sudo nice -n -20 vagrant up
       echo "BASH_ENV=$GITHUB_ACTION_PATH/BASH_ENV" >> "$GITHUB_ENV"
