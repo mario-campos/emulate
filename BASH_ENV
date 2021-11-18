@@ -1,6 +1,6 @@
 # In order to execute the below `vagrant ssh` command, we must be in the directory
 # of the Vagrantfile.
-cd "$RUNNER_TEMP"
+cd "$EMULATE_VAGRANT_PATH"
 
 # Determine the path to the bash script containing the body of "this" run step.
 # Unfortunately, because macos-10.15 is using an older version of Bash (3.2),
