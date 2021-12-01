@@ -1,0 +1,22 @@
+Vagrant.configure("2") do |config|
+  config.vm.guest = "freebsd"
+
+  config.vm.box = "emulate/freebsd-13.0"
+  config.vm.ignore_box_vagrantfile = true
+  config.vm.box_check_update = false
+  config.vm.box_download_checksum_type = "sha256"
+  config.vm.box_download_checksum = "e0aa1b18cecc8ecb71d7fa36b55e2343a24402d45957bc145a1aacf7fed4e7ed"
+  config.vm.box_url = [
+    "https://app.vagrantup.com/emulate/boxes/freebsd-13.0/versions/0.1.0/providers/virtualbox.box",
+    "https://github.com/mario-campos/emulate/releases/download/freebsd-13.0_0.1.0/packer_default_virtualbox.box",
+  ]
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provider "virtualbox" do |virtualbox|
+    virtualbox.check_guest_additions = false
+  end
+
+  config.ssh.username = "root"
+  config.ssh.insert_key = false
+end
