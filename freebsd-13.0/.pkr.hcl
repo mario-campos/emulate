@@ -14,7 +14,7 @@ source "virtualbox-iso" "default" {
   cpus   = 2
   memory = 14 * 1024 * 0.75
 
-  disk_size = 14000 # 14 GB
+  disk_size            = 14000 # 14 GB
   hard_drive_interface = "scsi"
 
   iso_url      = "https://download.freebsd.org/ftp/releases/amd64/amd64/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-amd64-disc1.iso"
