@@ -3,7 +3,7 @@ variables {
 }
 
 locals {
-  version      = "0.1.0"
+  version      = "0.1.1"
   ssh_password = "vagrant"
   id           = basename(abspath(path.root))
 }
@@ -115,6 +115,9 @@ source "virtualbox-iso" "default" {
 
     # Change root's shell, so the 'shell' provisioner will work.
     "chsh -s /bin/sh root<enter><wait>",
+
+    # Create ~/.ssh, because Packer will not create parent directories with the 'file' provisioner.
+    "mkdir -m 0700 .ssh<enter><wait>",
 
     # Return to installation prompt.
     "exit<enter><wait>",
