@@ -15,6 +15,7 @@ runs:
     run: |
       case "$EMULATE_OPERATING_SYSTEM" in
         openbsd-latest) EMULATE_OPERATING_SYSTEM=openbsd-7.0 ;;
+        freebsd-latest) EMULATE_OPERATING_SYSTEM=freebsd-13.0 ;;
       esac
 
       cd "$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM"

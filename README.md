@@ -17,9 +17,10 @@ steps:
 
 ### Supported operating systems
 
-| Supported OS | Input |
-| ------------ | ----- |
-| OpenBSD 7.0  |`openbsd-7.0`, `openbsd-latest` |
+| Supported OS  | Input |
+| ------------- | ----- |
+| OpenBSD 7.0   |`openbsd-7.0`, `openbsd-latest`  |
+| FreeBSD 13.0  |`freebsd-13.0`, `freebsd-latest` |
 
 ### Limitations
 - :heavy_exclamation_mark: This Action is still very experimental :heavy_exclamation_mark:
