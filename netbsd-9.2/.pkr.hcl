@@ -3,7 +3,7 @@ variables {
 }
 
 locals {
-  version      = "0.1.0"
+  version      = "0.1.1"
   ssh_password = "vagrant"
   id           = basename(abspath(path.root))
 }
@@ -128,7 +128,7 @@ build {
   provisioner "shell" {
     environment_vars = ["PKG_PATH=https://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/x86_64/9.2/All"]
     inline = [
-      "/usr/sbin/pkg_add git got clang cmake meson pkg-config autoconf automake libtool",
+      "/usr/sbin/pkg_add git got clang cmake meson pkg-config autoconf automake libtool ca-certificates",
     ]
   }
 

@@ -9,6 +9,7 @@
 
 - autoconf
 - automake
+- ca-certificates
 - git
 - got
 - clang
