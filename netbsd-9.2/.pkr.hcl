@@ -1,7 +1,3 @@
-variables {
-  headless = true
-}
-
 locals {
   version      = "0.1.1"
   ssh_password = "vagrant"
@@ -25,7 +21,6 @@ source "virtualbox-iso" "default" {
 
   guest_additions_mode = "disable"
   acpi_shutdown        = true
-  headless             = var.headless
 
   boot_wait = "30s"
   boot_command = [

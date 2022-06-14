@@ -1,7 +1,3 @@
-variables {
-  headless = true
-}
-
 locals {
   version      = "0.1.3"
   ssh_password = "vagrant"
@@ -25,7 +21,6 @@ source "virtualbox-iso" "default" {
 
   guest_additions_mode = "disable" # OpenBSD is unsupported
   shutdown_command     = "shutdown -p now"
-  headless             = var.headless
 
   http_content = {
     "/install.conf" = templatefile("install.conf.template", {
