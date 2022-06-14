@@ -1,0 +1,23 @@
+Vagrant.configure("2") do |config|
+  config.vm.guest = "netbsd"
+
+  config.vm.box = "emulate/netbsd-9.2"
+  config.vm.ignore_box_vagrantfile = true
+  config.vm.box_check_update = false
+  config.vm.box_download_checksum_type = "sha256"
+  config.vm.box_download_checksum = "691f7eb4474d310687367b3501e71aaaa8d921a0d153775c333682ec4319ee1d"
+  config.vm.box_url = [
+    "https://app.vagrantup.com/emulate/boxes/netbsd-9.2/versions/0.1.0/providers/virtualbox.box",
+    "https://github.com/mario-campos/emulate/releases/download/netbsd-9.2_0.1.0/packer_default_virtualbox.box",
+  ]
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provider "virtualbox" do |virtualbox|
+    virtualbox.check_guest_additions = false
+  end
+
+  config.ssh.username = "root"
+  config.ssh.insert_key = false
+  config.ssh.shell = "/bin/sh"
+end

@@ -21,6 +21,7 @@ steps:
 | ------------- | ----- |
 | OpenBSD 7.0   |`openbsd-7.0`, `openbsd-latest`  |
 | FreeBSD 13.0  |`freebsd-13.0`, `freebsd-latest` |
+| NetBSD 9.2    |`netbsd-9.2`, `netbsd-latest`    |
 
 ### Limitations
 - :heavy_exclamation_mark: This Action is still very experimental :heavy_exclamation_mark:
