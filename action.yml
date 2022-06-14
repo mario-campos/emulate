@@ -14,7 +14,7 @@ runs:
       EMULATE_OPERATING_SYSTEM: ${{ inputs.operating-system }}
     run: |
       case "$EMULATE_OPERATING_SYSTEM" in
-        openbsd-latest) EMULATE_OPERATING_SYSTEM=openbsd-7.0 ;;
+        openbsd-latest) EMULATE_OPERATING_SYSTEM=openbsd-7.1 ;;
         freebsd-latest) EMULATE_OPERATING_SYSTEM=freebsd-13.0 ;;
         netbsd-latest)  EMULATE_OPERATING_SYSTEM=netbsd-9.2 ;;
       esac

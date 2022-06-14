@@ -5,10 +5,10 @@ GitHub Actions for BSD.
 ```yaml
 runs-on: macos-10.15
 steps:
-- name: Bootstrap OpenBSD 7.0
+- name: Bootstrap OpenBSD
   uses: mario-campos/emulate@v1
   with:
-    operating-system: openbsd-7.0
+    operating-system: openbsd-latest
 - name: Build
   run: |
     git clone https://github.com/foo/bar.git
@@ -19,7 +19,8 @@ steps:
 
 | Supported OS  | Input |
 | ------------- | ----- |
-| OpenBSD 7.0   |`openbsd-7.0`, `openbsd-latest`  |
+| OpenBSD 7.1   |`openbsd-7.1`, `openbsd-latest`  |
+| OpenBSD 7.0   |`openbsd-7.0`                    |
 | FreeBSD 13.0  |`freebsd-13.0`, `freebsd-latest` |
 | NetBSD 9.2    |`netbsd-9.2`, `netbsd-latest`    |
 
