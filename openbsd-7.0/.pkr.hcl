@@ -60,9 +60,5 @@ build {
     post-processor "vagrant" {
       vagrantfile_template_generated = false
     }
-    post-processor "vagrant-cloud" {
-      box_tag = "emulate/${local.id}"
-      version = local.version
-    }
   }
 }
