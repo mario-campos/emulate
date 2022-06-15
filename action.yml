@@ -20,7 +20,7 @@ runs:
       esac
 
       cd "$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM"
-      vagrant up
+      sudo vagrant up
 
       echo "BASH_ENV=$GITHUB_ACTION_PATH/BASH_ENV" >> "$GITHUB_ENV"
       echo "EMULATE_VAGRANT_PATH=$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM" >> "$GITHUB_ENV"
