@@ -11,4 +11,4 @@ RUN_SCRIPT="$(ps -p $$ -o args= | xargs -n 1 | tail -n 1)"
 # It's important that this is `exec`uted, because this is what cause this BASH_ENV
 # script to "hijack" the original script's execution. Without the `exec`, $RUN_SCRIPT
 # would also execute in the host.
-exec sudo vagrant ssh -c '$SHELL -se' < "$RUN_SCRIPT"
+exec sudo vagrant ssh -c 'exec $SHELL -se' < "$RUN_SCRIPT"
