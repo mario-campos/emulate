@@ -19,8 +19,35 @@ runs:
         netbsd-latest)  EMULATE_OPERATING_SYSTEM=netbsd-9.2 ;;
       esac
 
-      cd "$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM"
-      VAGRANT_HOME="$RUNNER_TEMP/vagrant" vagrant up
+      # >VAGRANT_HOME can be set to change the directory where Vagrant
+      # >stores global state. By default, this is set to ~/.vagrant.d.
+      #
+      # Because ~/.vagrant.d is not readable/writable on the macos-12.15
+      # runner, we need to create a new readable/writeable VAGRANT_HOME.
+      export VAGRANT_HOME="$(mktemp --directory)"
 
-      echo "BASH_ENV=$GITHUB_ACTION_PATH/BASH_ENV" >> "$GITHUB_ENV"
-      echo "EMULATE_VAGRANT_PATH=$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM" >> "$GITHUB_ENV"
+      # >VAGRANT_CWD can be set to change the working directory of Vagrant.
+      # >By default, Vagrant uses the current directory you are in. The working
+      # >directory is important because it is where Vagrant looks for the Vagrantfile.
+      #
+      # While we can `cd` into the proper Vagrant directory (and did once),
+      # setting the VAGRANT_CWD environment variable is cleaner.
+      export VAGRANT_CWD="$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM"
+
+      # Generate a Bash script that will hijack/interrupt the original
+      # Actions-user-specified run step and proxy the contents of that
+      # run step to the guest VM.
+      EMULATE_BASH_HIJACKER="$(mktemp)"
+      cat > "$EMULATE_BASH_HIJACKER" << EOF
+        # Determine the path to the bash script containing the body of "this" run step.
+        RUN_SCRIPT="\$(ps -p \$$ -o args= | xargs -n 1 | tail -n 1)"
+
+        # Proxy the body of the run step to the guest virtual machine.
+        # It's important that this is `exec`uted, because this is what
+        # causes this BASH_ENV script to "hijack" the original script's
+        # execution. 
+        VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec \$SHELL -se' < "\$RUN_SCRIPT"
+      EOF
+
+      echo "BASH_ENV=$EMULATE_BASH_HIJACKER" >> "$GITHUB_ENV"
+      vagrant up
