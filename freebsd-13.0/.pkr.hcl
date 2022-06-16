@@ -6,9 +6,6 @@ locals {
 source "virtualbox-iso" "default" {
   guest_os_type = "FreeBSD_64"
 
-  cpus   = 2
-  memory = 14 * 1024 * 0.75
-
   disk_size            = 14000 # 14 GB
   hard_drive_interface = "scsi"
 
