@@ -8,6 +8,7 @@ source "virtualbox-iso" "default" {
 
   disk_size            = 14000 # 14 GB
   hard_drive_interface = "scsi"
+  nic_type             = "virtio"
 
   iso_url      = "https://download.freebsd.org/ftp/releases/amd64/amd64/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-amd64-disc1.iso"
   iso_checksum = "file:https://download.freebsd.org/ftp/releases/amd64/amd64/ISO-IMAGES/13.0/CHECKSUM.SHA256-FreeBSD-13.0-RELEASE-amd64"
