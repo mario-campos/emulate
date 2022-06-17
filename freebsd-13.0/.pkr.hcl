@@ -17,7 +17,7 @@ source "virtualbox-iso" "default" {
   ssh_password = local.ssh_password
 
   guest_additions_mode = "disable"
-  shutdown_command     = "shutdown -p now"
+  acpi_shutdown        = true
 
   boot_command = [
     # Menu prompt
