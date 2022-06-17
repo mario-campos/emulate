@@ -7,7 +7,14 @@
 
 ### Included packages
 
-- git-2.32.0_1
+- autoconf
+- automake
+- cmake
+- git
+- got
+- libtool
+- meson
+- pkgconf
 
 ### Customizations
 

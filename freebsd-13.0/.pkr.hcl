@@ -136,7 +136,7 @@ build {
     environment_vars = ["ASSUME_ALWAYS_YES=yes"]
     inline = [
       "pkg update -f",
-      "pkg install -y git-2.32.0_1",
+      "pkg install autoconf automake cmake git got libtool meson pkgconf",
     ]
   }
 
