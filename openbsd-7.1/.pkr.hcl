@@ -21,6 +21,7 @@ source "virtualbox-iso" "default" {
   http_content = {
     "/install.conf" = templatefile("install.conf.template", {
       root_password = local.ssh_password
+      disklabel_url = "https://raw.githubusercontent.com/mario-campos/emulate/openbsd-one-partition/openbsd-7.1/disklabel.template"
     })
   }
 
