@@ -6,6 +6,9 @@ locals {
 source "virtualbox-iso" "default" {
   guest_os_type = "OpenBSD_64"
 
+  # Use 2 vCPUs to install OpenBSD, so that it will use the bsd.mp kernel.
+  cpus = 2
+
   disk_size            = 14000 # 14 GB
   hard_drive_interface = "scsi"
   nic_type             = "virtio"
