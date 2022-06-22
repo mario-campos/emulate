@@ -47,20 +47,36 @@ build {
     destination = ".ssh/authorized_keys"
   }
 
+  # Disable unnecessary services to save CPU cycles.
   provisioner "shell" {
     inline = [
-      "rcctl disable cron pflogd slaacd sndiod",
-      "pkg_add git got cmake meson autoconf-2.71 automake-1.16.3 libtool",
+      "rcctl disable check_quotas cron dhcpleased library_aslr ntpd pf pflogd resolvd slaacd smtpd sndiod syslogd",
     ]
   }
 
   provisioner "shell" {
-    inline = ["syspatch"]
+    inline = ["pkg_add git got cmake meson autoconf-2.71 automake-1.16.3 libtool"]
+  }
 
-    # An exit code of 2 from syspatch(8) indicates that we tried to install patches,
-    # but we could not. In OpenBSD 7.1, this can happen when syspatch(8) must update
-    # itself first.
+  # Run dhclient instead of running dhcpleased; save some CPU cycles.
+  provisioner "shell" {
+    inline = ["echo '!dhclient \\$if' > /etc/hostname.vio0"]
+  }
+
+  # Disable KARL (since it's useless in a CI/CD VM) and set date and time at first-boot
+  # in one fell swoop.
+  provisioner "shell" {
+    inline = ["sed -i 's|/usr/libexec/reorder_kernel &|rdate time.cloudflare.com|' /etc/rc"]
+  }
+
+  # syspatch(8) may sometimes "fail" (with an exit code of 2) if it must update
+  # itself first. No worries -- just gotta run it again.
+  provisioner "shell" {
+    inline = ["syspatch"]
     valid_exit_codes = [0, 2]
+  }
+  provisioner "shell" {
+    inline = ["syspatch"]
   }
 
   post-processors {
