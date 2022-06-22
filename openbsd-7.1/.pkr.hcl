@@ -72,7 +72,7 @@ build {
   # syspatch(8) may sometimes "fail" (with an exit code of 2) if it must update
   # itself first. No worries -- just gotta run it again.
   provisioner "shell" {
-    inline = ["syspatch"]
+    inline           = ["syspatch"]
     valid_exit_codes = [0, 2]
   }
   provisioner "shell" {
