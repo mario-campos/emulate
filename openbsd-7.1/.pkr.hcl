@@ -9,6 +9,9 @@ source "virtualbox-iso" "default" {
   # Use 2 vCPUs to install OpenBSD, so that it will use the bsd.mp kernel.
   cpus = 2
 
+  # The VM needs 1024 MB of RAM in order install successfully.
+  memory = 1024
+
   disk_size            = 14000 # 14 GB
   hard_drive_interface = "scsi"
   nic_type             = "virtio"
