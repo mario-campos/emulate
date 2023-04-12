@@ -1,0 +1,26 @@
+Vagrant.configure("2") do |config|
+  config.vm.guest = "openbsd"
+
+  config.vm.box = "emulate/openbsd-7.2"
+  config.vm.ignore_box_vagrantfile = true
+  config.vm.box_check_update = false
+  config.vm.box_download_checksum_type = "sha256"
+  config.vm.box_download_checksum = "565c5b324273436403aa72cc55c7461ce513e97c2da45b8da818a1979741eaa0"
+  config.vm.box_url = [
+    "https://app.vagrantup.com/emulate/boxes/openbsd-7.2/versions/0.1.1/providers/virtualbox.box",
+    "https://github.com/mario-campos/emulate/releases/download/openbsd-7.2_0.1.1/packer_default_virtualbox.box",
+  ]
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provider "virtualbox" do |virtualbox|
+    virtualbox.cpus = 2
+    virtualbox.memory = 12 * 1024
+    virtualbox.check_guest_additions = false
+  end
+
+  config.ssh.username = "root"
+  config.ssh.insert_key = false
+  config.ssh.sudo_command = "doas %c"
+  config.ssh.shell = "ksh -l"
+end
