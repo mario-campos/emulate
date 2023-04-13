@@ -29,7 +29,7 @@ source "virtualbox-iso" "default" {
   http_content = {
     "/install.conf" = templatefile("install.conf.template", {
       root_password = local.ssh_password
-      disklabel_url = "https://raw.githubusercontent.com/mario-campos/emulate/main/openbsd-7.1/disklabel.template"
+      disklabel_url = "https://raw.githubusercontent.com/mario-campos/emulate/main/openbsd-disklabel.template"
     })
   }
 
