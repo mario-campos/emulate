@@ -38,6 +38,10 @@ build {
 
   provisioner "shell" {
     inline = ["syspatch"]
+    
+    # The syspatch utility exits 0 on success, and >0 if an error occurs. In particular,
+    # 2 indicates that applying patches was requested but no additional patch was installed.
+    valid_exit_codes = [0, 2]
   }
 
   provisioner "shell" {
