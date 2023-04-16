@@ -10,10 +10,10 @@ source "virtualbox-iso" "default" {
   disk_size            = 14000 # 14 GB
   hard_drive_interface = "scsi"
   nic_type             = "virtio"
-  iso_interface	       = "sata"
 
-  iso_url      = "https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/install73.iso"
-  iso_checksum = "file:https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/SHA256"
+  iso_interface	= "sata"
+  iso_url       = "https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/install73.iso"
+  iso_checksum  = "file:https://cdn.openbsd.org/pub/OpenBSD/7.3/amd64/SHA256"
 
   ssh_username = "root"
   ssh_password = "vagrant"
