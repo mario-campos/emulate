@@ -24,7 +24,7 @@ runs:
       #
       # Because ~/.vagrant.d is not readable/writable on the macos-12.15
       # runner, we need to create a new readable/writeable VAGRANT_HOME.
-      export VAGRANT_HOME="$(mktemp --directory)"
+      export VAGRANT_HOME="$(mktemp -d)"
 
       # >VAGRANT_CWD can be set to change the working directory of Vagrant.
       # >By default, Vagrant uses the current directory you are in. The working
