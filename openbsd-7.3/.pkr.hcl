@@ -38,10 +38,6 @@ build {
   }
 
   provisioner "shell" {
-    inline = ["syspatch"]
-  }
-
-  provisioner "shell" {
     inline = ["pkg_add git got cmake meson autoconf-2.71 automake-1.16.5 libtool"]
   }
 
