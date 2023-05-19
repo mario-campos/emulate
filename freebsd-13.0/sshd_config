@@ -1,3 +1,0 @@
-UseDNS no
-PubkeyAuthentication yes
-PermitRootLogin prohibit-password
