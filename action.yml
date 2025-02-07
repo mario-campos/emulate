@@ -30,7 +30,7 @@ runs:
       #
       # Because ~/.vagrant.d is not readable/writable on the macos-12.15
       # runner, we need to create a new readable/writeable VAGRANT_HOME.
-      export VAGRANT_HOME="$(mktemp -d)"
+      #export VAGRANT_HOME="$(mktemp -d)"
 
       # >VAGRANT_CWD can be set to change the working directory of Vagrant.
       # >By default, Vagrant uses the current directory you are in. The working
@@ -52,8 +52,12 @@ runs:
         # It's important that this is `exec`uted, because this is what
         # causes this BASH_ENV script to "hijack" the original script's
         # execution. 
-        VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" vagrant ssh --no-tty < "\$RUN_SCRIPT"
+        #VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh --no-tty < "\$RUN_SCRIPT"
+        VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec /bin/ksh -s' < "\$RUN_SCRIPT"
       EOF
 
+      # Set $BASH_ENV to execute our "hijack" script before the BSD commands are
+      # executed in an Ubuntu Linux bash process.
+      # https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
       echo "BASH_ENV=$EMULATE_BASH_HIJACKER" >> "$GITHUB_ENV"
       vagrant up
