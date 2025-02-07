@@ -13,8 +13,14 @@ runs:
     env:
       EMULATE_OPERATING_SYSTEM: ${{ inputs.operating-system }}
     run: |
+      # Install Vagrant, VirtualBox
+      wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+      sudo apt update
+      sudo apt install -y vagrant virtualbox
+
       case "$EMULATE_OPERATING_SYSTEM" in
-        openbsd-latest) EMULATE_OPERATING_SYSTEM=openbsd-7.3 ;;
+        openbsd-latest) EMULATE_OPERATING_SYSTEM=openbsd-7.6 ;;
         freebsd-latest) EMULATE_OPERATING_SYSTEM=freebsd-13.0 ;;
         netbsd-latest)  EMULATE_OPERATING_SYSTEM=netbsd-9.2 ;;
       esac

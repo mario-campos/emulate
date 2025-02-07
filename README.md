@@ -3,7 +3,7 @@
 GitHub Actions for BSD.
 
 ```yaml
-runs-on: macos-12
+runs-on: ubuntu-latest
 steps:
 - name: Bootstrap OpenBSD
   uses: mario-campos/emulate@v1
@@ -19,8 +19,7 @@ steps:
 
 | Supported OS  | Input |
 | ------------- | ----- |
-| OpenBSD 7.3   |`openbsd-7.3`, `openbsd-latest`  |
-| OpenBSD 7.2   |`openbsd-7.2`                    |
+| OpenBSD 7.6   |`openbsd-7.6`, `openbsd-latest`  |
 | FreeBSD 13.0  |`freebsd-13.0`, `freebsd-latest` |
 | NetBSD 9.2    |`netbsd-9.2`, `netbsd-latest`    |
 
@@ -28,3 +27,4 @@ steps:
 - :heavy_exclamation_mark: This Action is still very experimental :heavy_exclamation_mark:
 - Only `run.shell=bash` steps are propogated to the guest at the moment. `run.shell=python` will run in the host.
 - No support for Actions; just `run` steps.
+- GitHub-hosted-runner environment variables will be propogated to the BSD guest.
