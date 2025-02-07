@@ -52,7 +52,7 @@ runs:
         # It's important that this is `exec`uted, because this is what
         # causes this BASH_ENV script to "hijack" the original script's
         # execution. 
-        VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh < "\$RUN_SCRIPT"
+        VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" vagrant ssh < "\$RUN_SCRIPT"
       EOF
 
       echo "BASH_ENV=$EMULATE_BASH_HIJACKER" >> "$GITHUB_ENV"
