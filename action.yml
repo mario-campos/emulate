@@ -16,8 +16,8 @@ runs:
       # Install Vagrant, VirtualBox
       wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
       echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-      sudo apt update
-      sudo apt install -y vagrant virtualbox
+      sudo apt-get update --quiet --quiet
+      sudo apt-get install --quiet --quiet vagrant virtualbox
 
       case "$EMULATE_OPERATING_SYSTEM" in
         openbsd-latest) EMULATE_OPERATING_SYSTEM=openbsd-7.6 ;;
