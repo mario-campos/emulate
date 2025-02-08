@@ -25,28 +25,16 @@ runs:
         netbsd-latest)  EMULATE_OPERATING_SYSTEM=netbsd-9.2 ;;
       esac
 
-      # >VAGRANT_HOME can be set to change the directory where Vagrant
-      # >stores global state. By default, this is set to ~/.vagrant.d.
-      #
-      # Because ~/.vagrant.d is not readable/writable on the macos-12.15
-      # runner, we need to create a new readable/writeable VAGRANT_HOME.
-      #export VAGRANT_HOME="$(mktemp -d)"
-
-      # >VAGRANT_CWD can be set to change the working directory of Vagrant.
-      # >By default, Vagrant uses the current directory you are in. The working
-      # >directory is important because it is where Vagrant looks for the Vagrantfile.
-      #
-      # While we can `cd` into the proper Vagrant directory (and did once),
-      # setting the VAGRANT_CWD environment variable is cleaner.
-      export VAGRANT_CWD="$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM"
-
-      # Generate a Bash script that will hijack/interrupt the original
-      # Actions-user-specified run step and proxy the contents of that
-      # run step to the guest VM.
-      #VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh --no-tty < "\$RUN_SCRIPT"
+      # By default, Vagrant uses the current directory you are in. The working
+      # directory is important because it is where Vagrant looks for the Vagrantfile.
+      # VAGRANT_CWD can be set to change the working directory to the Vagrantfile.
+      VAGRANT_CWD="$GITHUB_ACTION_PATH/$EMULATE_OPERATING_SYSTEM"
 
       EMULATE_BASH_HIJACKER="$(mktemp)"
 
+      # It's important to delete the BASH_ENV environment variable once we've
+      # used it to "hijack" the first bash(1) process, because we don't want to
+      # continue hijacking the rest of the process tree.
       cat >"$EMULATE_BASH_HIJACKER" <<EOF
       unset BASH_ENV
       VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec ksh -s' < "\$0"
@@ -56,4 +44,5 @@ runs:
       # executed in an Ubuntu Linux bash process.
       # https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
       echo "BASH_ENV=$EMULATE_BASH_HIJACKER" >> "$GITHUB_ENV"
-      vagrant up
+
+      VAGRANT_CWD="$VAGRANT_CWD" vagrant up
