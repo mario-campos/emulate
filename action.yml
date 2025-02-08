@@ -53,7 +53,7 @@ runs:
         # causes this BASH_ENV script to "hijack" the original script's
         # execution. 
         #VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh --no-tty < "\$RUN_SCRIPT"
-        VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh --no-tty < "\$0"
+        VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec ksh -s' < "\$0"
       EOF
 
       # Set $BASH_ENV to execute our "hijack" script before the BSD commands are
