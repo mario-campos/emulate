@@ -43,18 +43,13 @@ runs:
       # Generate a Bash script that will hijack/interrupt the original
       # Actions-user-specified run step and proxy the contents of that
       # run step to the guest VM.
-      EMULATE_BASH_HIJACKER="$(mktemp)"
-      cat >"$EMULATE_BASH_HIJACKER" <<EOF
-      # Proxy the body of the run step to the guest virtual machine.
-      # It's important that this is `exec`uted, because this is what
-      # causes this BASH_ENV script to "hijack" the original script's
-      # execution. 
       #VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh --no-tty < "\$RUN_SCRIPT"
-      echo "\\\$0 = \$0"
-      echo "\\\$1 = \$1"
-      echo "\\\$2 = \$2"
-      VAGRANT_CWD="$VAGRANT_CWD" vagrant ssh -c 'exec ksh -s' < "\$0"
-      exit
+
+      EMULATE_BASH_HIJACKER="$(mktemp)"
+
+      cat >"$EMULATE_BASH_HIJACKER" <<EOF
+      unset BASH_ENV
+      VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec ksh -s' < "\$0"
       EOF
 
       # Set $BASH_ENV to execute our "hijack" script before the BSD commands are
