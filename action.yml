@@ -45,16 +45,12 @@ runs:
       # run step to the guest VM.
       EMULATE_BASH_HIJACKER="$(mktemp)"
       cat >"$EMULATE_BASH_HIJACKER" <<EOF
-      echo "\$0 = [\$0]"
-        # Determine the path to the bash script containing the body of "this" run step.
-        #RUN_SCRIPT="\$(ps -p \$$ -o args= | xargs -n 1 | tail -n 1)"
-
-        # Proxy the body of the run step to the guest virtual machine.
-        # It's important that this is `exec`uted, because this is what
-        # causes this BASH_ENV script to "hijack" the original script's
-        # execution. 
-        #VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh --no-tty < "\$RUN_SCRIPT"
-      VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec ksh -s' < "\$0"
+      # Proxy the body of the run step to the guest virtual machine.
+      # It's important that this is `exec`uted, because this is what
+      # causes this BASH_ENV script to "hijack" the original script's
+      # execution. 
+      #VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh --no-tty < "\$RUN_SCRIPT"
+      VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec ksh -s' < "\$(ps -p \$$ -o args= | xargs -n 1 | tail -n 1)"
       EOF
 
       # Set $BASH_ENV to execute our "hijack" script before the BSD commands are
