@@ -50,9 +50,9 @@ runs:
       # causes this BASH_ENV script to "hijack" the original script's
       # execution. 
       #VAGRANT_HOME="$VAGRANT_HOME" VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh --no-tty < "\$RUN_SCRIPT"
-      echo "\\$0 = \$0"
-      echo "\\$1 = \$1"
-      echo "\\$2 = \$2"
+      echo "\\\$0 = \$0"
+      echo "\\\$1 = \$1"
+      echo "\\\$2 = \$2"
       VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec ksh -s' < "\$(ps -p \$$ -o args= | xargs -n 1 | tail -n 1)"
       EOF
 
