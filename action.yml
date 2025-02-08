@@ -53,7 +53,8 @@ runs:
       echo "\\\$0 = \$0"
       echo "\\\$1 = \$1"
       echo "\\\$2 = \$2"
-      VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec ksh -s' < "\$(ps -p \$$ -o args= | xargs -n 1 | tail -n 1)"
+      VAGRANT_CWD="$VAGRANT_CWD" vagrant ssh -c 'exec ksh -s' < "\$0"
+      exit
       EOF
 
       # Set $BASH_ENV to execute our "hijack" script before the BSD commands are
