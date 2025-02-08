@@ -37,7 +37,7 @@ runs:
       # continue hijacking the rest of the process tree.
       cat >"$EMULATE_BASH_HIJACKER" <<EOF
       unset BASH_ENV
-      VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh -c 'exec ksh -s' < "\$0"
+      VAGRANT_CWD="$VAGRANT_CWD" exec vagrant ssh < "\$0"
       EOF
 
       # Set $BASH_ENV to execute our "hijack" script before the BSD commands are
