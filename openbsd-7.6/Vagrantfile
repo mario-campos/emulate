@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "emulate/openbsd-7.6"
   config.vm.box_download_checksum_type = "sha256"
-  config.vm.box_download_checksum = "75af01b4e373fb0fc6992c5e018c7b3a03219352a2b68f56798b6e2da5f19223"
-  config.vm.box_url = "https://github.com/mario-campos/emulate-images/releases/download/openbsd-7.6_1.0.0/packer_default_virtualbox_amd64.box"
+  config.vm.box_download_checksum = "363defef19b581e76e3720f64a558f96b67a550449f5b5499c8fc438dcdda296"
+  config.vm.box_url = "https://github.com/mario-campos/emulate-images/releases/download/openbsd-7.6_2/packer_default_virtualbox_amd64.box"
 end
