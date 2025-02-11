@@ -20,7 +20,7 @@ steps:
 | Supported OS  | Input |
 | ------------- | ----- |
 | OpenBSD 7.6   |`openbsd-7.6`, `openbsd-latest`  |
-| FreeBSD 13.0  |`freebsd-13.0`, `freebsd-latest` |
+| FreeBSD 14.2  |`freebsd-14.2`, `freebsd-latest` |
 | NetBSD 9.2    |`netbsd-9.2`, `netbsd-latest`    |
 
 ### Limitations

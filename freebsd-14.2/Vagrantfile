@@ -1,0 +1,6 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "emulate/freebsd-14.2"
+  config.vm.box_download_checksum_type = "sha256"
+  config.vm.box_download_checksum = "b9475f7a04308f6bef5b4e2ed2185e8f6e5b7d658e52864685ec61cb3b173ca1"
+  config.vm.box_url = "https://github.com/mario-campos/emulate-images/releases/download/freebsd-14.2_1/packer_default_virtualbox_amd64.box"
+end
