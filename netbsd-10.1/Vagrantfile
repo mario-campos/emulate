@@ -1,0 +1,6 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "emulate/netbsd-10.1"
+  config.vm.box_download_checksum_type = "sha256"
+  config.vm.box_download_checksum = "b5fa856005140b5e02196d6ba755c454e50c84fa56ed2d893ee5f9bc8bf8ca85"
+  config.vm.box_url = "https://github.com/mario-campos/emulate-images/releases/download/netbsd-10.1_1/packer_default_virtualbox_amd64.box"
+end
